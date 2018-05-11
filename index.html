@@ -63,15 +63,56 @@
             border: 1px solid grey;
             background: transparent;
         }
+
+        table {
+            width: 100px;
+        }
+
+        td,
+        th {
+            padding: 10px;
+        }
+
+        th {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
 
-<div class="wrapper">
-    <textarea class="textarea"></textarea>
-    <div class="text-block"></div>
-</div>
+<!--<div class="wrapper">-->
+    <!--<textarea class="textarea"></textarea>-->
+    <!--<div class="text-block"></div>-->
+<!--</div>-->
+
+
+<table border="">
+    <thead>
+    <tr>
+        <th>Names</th>
+        <th>Employment</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+    <tr>
+        <td>Andriy</td>
+        <td>5</td>
+        <td>1990</td>
+    </tr>
+    <tr>
+        <td>Max</td>
+        <td>3</td>
+        <td>1993</td>
+    </tr>
+    <tr>
+        <td>Ivan</td>
+        <td>7</td>
+        <td>1994</td>
+    </tr>
+    </tbody>
+</table>
 
 <script src="index.js"></script>
 </body>
