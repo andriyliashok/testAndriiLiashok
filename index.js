@@ -67,27 +67,30 @@
 
 
 var tbody = document.getElementById("tbody");
-var numRows = tbody.rows.length;
+var trNum = tbody.rows.length;
+var nameBtn = document.getElementById("name-btn");
+var employmentBtn = document.getElementById("employment-btn");
+var dateBtn = document.getElementById("date-btn");
 
 var names = [];
 var employments = [];
 var dates = [];
 var count = 0;
 
-for (var i = 0; i < numRows; i++) {
-    var cells = tbody.rows[i].getElementsByTagName('td');
-    for (var j = 0; j < cells.length; j++) {
+for (var i = 0; i < trNum; i++) {
+    var tdValue = tbody.rows[i].getElementsByTagName('td');
+    for (var j = 0; j < tdValue.length; j++) {
 
         if (j === 0) {
-            names.push(cells[j].innerHTML);
+            names.push(tdValue[j].innerHTML);
         }
 
         if (j === 1) {
-            employments.push(cells[j].innerHTML);
+            employments.push(tdValue[j].innerHTML);
         }
 
         if (j === 2) {
-            dates.push(cells[j].innerHTML);
+            dates.push(tdValue[j].innerHTML);
         }
     }
 }
@@ -98,17 +101,91 @@ function sortAsc(array) {
     })
 }
 
-employments = sortAsc(employments);
-console.log(employments);
+function sortDesc(array) {
+    return array.sort(function (a, b) {
+        return  b - a;
+    })
+}
 
-for (var c = 0; c < numRows; c++) {
-    var cells1 = tbody.rows[c].getElementsByTagName('td');
-    for (var k = 0; k < cells1.length; k++) {
+function sortAscNames(array) {
+    return array.sort(function (a, b) {
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
+    })
+}
 
-        if (k === 1) {
-            cells1[k].innerHTML = employments[count];
-            count++;
+function sortAscDates(array) {
+    return array.sort(function (a, b) {
+        var dateA = new Date(a), dateB = new Date(b);
+        return dateA - dateB;
+    })
+}
+
+
+employmentBtn.addEventListener("click", function () {
+    this.classList.add('sortAsc')
+    var employmentsAsc = sortAsc(employments);
+    for (var c = 0; c < trNum; c++) {
+        var tdValueSort = tbody.rows[c].getElementsByTagName('td');
+        for (var k = 0; k < tdValueSort.length; k++) {
+
+            if (k === 1) {
+                tdValueSort[k].innerHTML = employmentsAsc[count];
+                count++;
+            }
         }
     }
-}
+
+    // if( this.classList.contains("sortAsc")) {
+    //     this.classList.add('sortDesc');
+    //
+    //     var employmentsDesk = sortDesc(employments);
+    //
+    //     for (var c = 0; c < trNum; c++) {
+    //         var tdValueSort = tbody.rows[c].getElementsByTagName('td');
+    //         for (var k = 0; k < tdValueSort.length; k++) {
+    //
+    //             if (k === 1) {
+    //                 tdValueSort[k].innerHTML = employmentsDesk[count];
+    //                 count++;
+    //             }
+    //         }
+    //     }
+    // }
+});
+
+nameBtn.addEventListener("click", function () {
+    this.classList.add('sortAsc')
+    var namesAsc = sortAscNames(names);
+    for (var c = 0; c < trNum; c++) {
+        var tdValueSort = tbody.rows[c].getElementsByTagName('td');
+        for (var k = 0; k < tdValueSort.length; k++) {
+
+            if (k === 0) {
+                tdValueSort[k].innerHTML = namesAsc[count];
+                count++;
+            }
+        }
+    }
+});
+
+dateBtn.addEventListener("click", function () {
+    this.classList.add('sortAsc')
+    var datesAsc = sortAscNames(dates);
+    for (var c = 0; c < trNum; c++) {
+        var tdValueSort = tbody.rows[c].getElementsByTagName('td');
+        for (var k = 0; k < tdValueSort.length; k++) {
+
+            if (k === 2) {
+                tdValueSort[k].innerHTML = datesAsc[count];
+                count++;
+            }
+        }
+    }
+});
+
+
+
+
 
