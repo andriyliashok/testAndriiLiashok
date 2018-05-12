@@ -95,17 +95,13 @@ for (var i = 0; i < trNum; i++) {
     }
 }
 
-function sortAsc(array) {
-    return array.sort(function (a, b) {
-        return a - b;
-    })
-}
+localStorage.setItem("names", JSON.stringify(names));
+localStorage.setItem("employments", JSON.stringify(employments));
+localStorage.setItem("dates", JSON.stringify(dates));
 
-function sortDesc(array) {
-    return array.sort(function (a, b) {
-        return  b - a;
-    })
-}
+var initNames = JSON.parse(localStorage.getItem("names"));
+var initEmployments = JSON.parse(localStorage.getItem("employments"));
+var initDates = JSON.parse(localStorage.getItem("dates"));
 
 function sortAscNames(array) {
     return array.sort(function (a, b) {
@@ -115,86 +111,125 @@ function sortAscNames(array) {
     })
 }
 
-function sortAscDates(array) {
+function sortDescNames(array) {
     return array.sort(function (a, b) {
-        var dateA = new Date(a), dateB = new Date(b);
-        return dateA - dateB;
+        if (b < a) return -1;
+        if (b > a) return 1;
+        return 0;
     })
 }
 
-function counClickFunc (){
+function sortAscNum(array) {
+    return array.sort(function (a, b) {
+        return a - b;
+    })
+}
+
+function sortDescNum(array) {
+    return array.sort(function (a, b) {
+        return  b - a;
+    })
+}
+
+function sortAscDates(array) {
+    return array.sort(function (a, b) {
+            if (a > b) return 1;
+            if (a < b) return -1;
+            return 0;
+    })
+}
+
+function sortDescDates(array) {
+    return array.sort(function (a, b) {
+        if (b > a) return 1;
+        if (b < a) return -1;
+        return 0;
+    })
+}
+
+function countClickFunc (first){
     if (countClicks === 3) {
-        countClicks = 0
+        countClicks = first
     } else  {
         countClicks++
     }
 }
 
+nameBtn.addEventListener("click", function () {
+    countClickFunc();
+    if (countClicks === 1)  {
+        count = 0;
+        var namesAsc = sortAscNames(names);
+        pushSort(namesAsc, 0);
+    }
+
+    if (countClicks === 2)  {
+        count = 0;
+        var namesDesc = sortDescNames(names);
+        pushSort(namesDesc, 0);
+    }
+
+    if (countClicks === 3)  {
+        count = 0;
+        pushSort(initNames, 0);
+    }
+    count = 0;
+    pushSort(initEmployments, 1);
+    count = 0;
+    pushSort(initDates, 2);
+    console.log(countClicks)
+});
 
 employmentBtn.addEventListener("click", function () {
-
-    counClickFunc();
-
+    countClickFunc();
     if (countClicks === 1)  {
-        var employmentsAsc = sortAsc(employments);
+        count = 0;
+        var employmentsAsc = sortAscNum(employments);
         pushSort(employmentsAsc, 1);
     }
 
     if (countClicks === 2)  {
-
         count = 0;
-        var employmentsDesc = sortDesc(employments);
+        var employmentsDesc = sortDescNum(employments);
         pushSort(employmentsDesc, 1);
     }
 
     if (countClicks === 3)  {
         count = 0;
-        console.log(initEmployments);
         pushSort(initEmployments, 1);
     }
 
+    count = 0;
+    pushSort(initNames, 0);
+    count = 0;
+    pushSort(initDates, 2);
+    console.log(countClicks)
 });
-
-
-// document.addEventListener("click", function () {
-//     if (event.target.classList.contains('sortAscNum')) {
-//         event.target.classList.remove('sortAscNum');
-//         event.target.classList.add('sortDescNum');
-//         count = 0;
-//         console.log(employmentBtn.classList.length);
-//         var employmentsDesc = sortDesc(employments);
-//         pushSort(employmentsDesc, 1);
-//     }
-// });
-//
-// document.addEventListener("click", function () {
-//     if (event.target.classList.contains('sortDescNum')) {
-//         event.target.classList.remove('sortDescNum');
-//         count = 0;
-//         pushSort(employments, 1);
-//         console.log(employmentBtn.classList.length);
-//     }
-// });
-
-
-
-
-
-
-
-nameBtn.addEventListener("click", function () {
-    this.classList.add('sortAscNames');
-    var namesAsc = sortAscNames(names);
-    pushSort(namesAsc, 0);
-});
-
 
 dateBtn.addEventListener("click", function () {
-    this.classList.add('sortAscDates');
-    var datesAsc = sortAscNames(dates);
-    pushSort(datesAsc, 2);
-});
+    countClickFunc();
+    if (countClicks === 1)  {
+        count = 0;
+        var datesAsc = sortAscDates(dates);
+        pushSort(datesAsc, 2);
+    }
 
+    if (countClicks === 2)  {
+        count = 0;
+        var dateDesc = sortDescDates(dates);
+        pushSort(dateDesc, 2);
+    }
+
+    if (countClicks === 3)  {
+        count = 0;
+        pushSort(initDates, 2);
+    }
+    count = 0;
+    pushSort(initNames, 0);
+    count = 0;
+    pushSort(initEmployments, 1);
+    console.log(countClicks)
+});
 
 function pushSort(sortArray, arrayIndex) {
     for (var c = 0; c < trNum; c++) {
