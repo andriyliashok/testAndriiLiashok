@@ -75,7 +75,9 @@ var names = [];
 var employments = [];
 var dates = [];
 var count = 0;
-var countClicks = 0;
+var countClicksNames = 0;
+var countClicksEmpl = 0;
+var countClicksDates = 0;
 
 for (var i = 0; i < trNum; i++) {
     var tdValue = tbody.rows[i].getElementsByTagName('td');
@@ -132,44 +134,66 @@ function sortDescNum(array) {
 }
 
 function sortAscDates(array) {
+    function convertDate(d) {
+        var p = d.split(".");
+        return +(p[2]+p[1]+p[0]);
+    }
     return array.sort(function (a, b) {
-            if (a > b) return 1;
-            if (a < b) return -1;
-            return 0;
+        return convertDate(a) - convertDate(b);
     })
 }
 
 function sortDescDates(array) {
+    function convertDate(d) {
+        var p = d.split(".");
+        return +(p[2]+p[1]+p[0]);
+    }
     return array.sort(function (a, b) {
-        if (b > a) return 1;
-        if (b < a) return -1;
-        return 0;
+        return convertDate(b) - convertDate(a);
     })
 }
 
-function countClickFunc (first){
-    if (countClicks === 3) {
-        countClicks = first
+function countClickFuncNames (){
+    if (countClicksNames === 3) {
+        countClicksNames = 1
     } else  {
-        countClicks++
+        countClicksNames++
+    }
+}
+
+function countClickFuncEmpl (){
+    if (countClicksEmpl === 3) {
+        countClicksEmpl = 1
+    } else  {
+        countClicksEmpl++
+    }
+}
+
+function countClickFuncDates (){
+    if (countClicksDates === 3) {
+        countClicksDates = 1
+    } else  {
+        countClicksDates++
     }
 }
 
 nameBtn.addEventListener("click", function () {
-    countClickFunc();
-    if (countClicks === 1)  {
+    countClickFuncNames();
+
+    if (countClicksNames === 1)  {
         count = 0;
         var namesAsc = sortAscNames(names);
         pushSort(namesAsc, 0);
+        countClicksEmpl = 1;
     }
 
-    if (countClicks === 2)  {
+    if (countClicksNames === 2)  {
         count = 0;
         var namesDesc = sortDescNames(names);
         pushSort(namesDesc, 0);
     }
 
-    if (countClicks === 3)  {
+    if (countClicksNames === 3)  {
         count = 0;
         pushSort(initNames, 0);
     }
@@ -177,24 +201,28 @@ nameBtn.addEventListener("click", function () {
     pushSort(initEmployments, 1);
     count = 0;
     pushSort(initDates, 2);
-    console.log(countClicks)
+    countClicksEmpl = 0;
+    countClicksDates = 0;
+    console.log(countClicksNames)
+
 });
 
 employmentBtn.addEventListener("click", function () {
-    countClickFunc();
-    if (countClicks === 1)  {
+
+    countClickFuncEmpl()
+    if (countClicksEmpl === 1)  {
         count = 0;
         var employmentsAsc = sortAscNum(employments);
         pushSort(employmentsAsc, 1);
     }
 
-    if (countClicks === 2)  {
+    if (countClicksEmpl === 2)  {
         count = 0;
         var employmentsDesc = sortDescNum(employments);
         pushSort(employmentsDesc, 1);
     }
 
-    if (countClicks === 3)  {
+    if (countClicksEmpl === 3)  {
         count = 0;
         pushSort(initEmployments, 1);
     }
@@ -203,24 +231,26 @@ employmentBtn.addEventListener("click", function () {
     pushSort(initNames, 0);
     count = 0;
     pushSort(initDates, 2);
-    console.log(countClicks)
+    countClicksNames = 0;
+    countClicksDates = 0;
+    console.log(countClicksEmpl)
 });
 
 dateBtn.addEventListener("click", function () {
-    countClickFunc();
-    if (countClicks === 1)  {
+    countClickFuncDates();
+    if (countClicksDates === 1)  {
         count = 0;
         var datesAsc = sortAscDates(dates);
         pushSort(datesAsc, 2);
     }
 
-    if (countClicks === 2)  {
+    if (countClicksDates === 2)  {
         count = 0;
         var dateDesc = sortDescDates(dates);
         pushSort(dateDesc, 2);
     }
 
-    if (countClicks === 3)  {
+    if (countClicksDates === 3)  {
         count = 0;
         pushSort(initDates, 2);
     }
@@ -228,7 +258,9 @@ dateBtn.addEventListener("click", function () {
     pushSort(initNames, 0);
     count = 0;
     pushSort(initEmployments, 1);
-    console.log(countClicks)
+    countClicksNames = 0;
+    countClicksEmpl = 0;
+    console.log(countClicksDates)
 });
 
 function pushSort(sortArray, arrayIndex) {
